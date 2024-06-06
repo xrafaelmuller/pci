@@ -83,7 +83,7 @@ elif option == "Graphs":
             # Add bar chart for peak by month
     st.subheader("Peak by Month")
     c4.monthly_counts = df_filtered['Month'].value_counts().sort_index()
-    bar_chart_peak = px.bar(c4.monthly_counts, x=c4.monthly_counts.index, y=c4.monthly_counts.values, labels={'x':'Month', 'y':'Count'})
+    bar_chart_peak = px.line(c4.monthly_counts, x=c4.monthly_counts.index, y=c4.monthly_counts.values, labels={'x':'Month', 'y':'Count'})
     st.plotly_chart(bar_chart_peak)
 
 
