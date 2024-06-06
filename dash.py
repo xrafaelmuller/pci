@@ -91,6 +91,14 @@ elif option == "Graphs":
         grouped_counts = df_filtered.groupby(['Month', 'Type']).size().reset_index(name='Count')
     else:
         grouped_counts = df_filtered.groupby(['Week', 'Type']).size().reset_index(name='Count')
+
+    # Bar chart for rank by record types
+# Grouped bar chart for rank by application name and type
+    grouped_applications = df_filtered.groupby(['Application Name', 'Type']).size().reset_index(name='Count')
+    bar_chart_grouped_applications = px.bar(grouped_applications, x='Application Name', y='Count', color='Type', barmode='group', title="Rank by Application Names and Types")
+    c4.plotly_chart(bar_chart_grouped_applications)
+
+
     
     bar_chart_grouped = px.bar(grouped_counts, x=time_column, y='Count', color='Type', barmode='group', title="Peak by Month and Type")
     c6.plotly_chart(bar_chart_grouped)
