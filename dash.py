@@ -6,7 +6,7 @@ st.set_page_config(layout="wide")
 
 st.title("Data Analysis for PCI Changes")
 
-# Abrir o arquivo CSV
+# Open the CSV file
 df_with_duplicates = pd.read_csv("data.csv", sep=';', decimal=',')
 
 # Remove duplicates from the 'task' column
@@ -80,6 +80,13 @@ elif option == "Graphs":
     bar_chart = px.bar(top_offender_applications, x=top_offender_applications.index, y=top_offender_applications.values, labels={'x':'Rank Application Name', 'y':'Count'}, title="Rank by Application Names")
     c3.plotly_chart(bar_chart)
 
+            # Add bar chart for peak by month
+    st.subheader("Peak by Month")
+    c4.monthly_counts = df_filtered['Month'].value_counts().sort_index()
+    bar_chart_peak = px.bar(c4.monthly_counts, x=c4.monthly_counts.index, y=c4.monthly_counts.values, labels={'x':'Month', 'y':'Count'}, title="Peak by Month")
+    st.plotly_chart(bar_chart_peak)
+
+
     if time_selection == "All" and creator == "All":
         # Calculate the average count of records per selected time period
         average_per_period = df_filtered.groupby(time_column)['Type'].count().mean()
@@ -102,3 +109,4 @@ elif option == "Graphs":
             period_count_dict = dict(zip(period_counts[time_period], period_counts['Count']))
             for period, count in period_count_dict.items():
                 st.info(f"{period}: {count}")
+
