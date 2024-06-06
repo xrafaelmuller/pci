@@ -65,6 +65,8 @@ elif option == "Graphs":
     c3, c4 = st.columns(2)
     c5, c6 = st.columns(2)
 
+    type_counts = df_filtered['Type'].value_counts()
+
     pie_chart = px.pie(df_filtered, names='Type', color="Type", title="Types of Changes based on the selection")
     pie_chart.update_traces(textinfo='percent+label')
     c1.plotly_chart(pie_chart)
