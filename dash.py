@@ -63,6 +63,7 @@ if option == "Raw Data":
 elif option == "Graphs":
     c1, c2 = st.columns(2)
     c3, c4 = st.columns(2)
+    c5, c6 = st.columns(2)
 
     pie_chart = px.pie(df_filtered, names='Type', color="Type", title="Types of Changes based on the selection")
     pie_chart.update_traces(textinfo='percent+label')
@@ -83,7 +84,7 @@ elif option == "Graphs":
     # Line chart for peak by month
     monthly_counts = df_filtered['Month'].value_counts().sort_index()
     bar_chart_peak = px.line(monthly_counts, x=monthly_counts.index, y=monthly_counts.values, labels={'x':'Month', 'y':'Count'}, title="Peak by Month")
-    c4.plotly_chart(bar_chart_peak)
+    c5.plotly_chart(bar_chart_peak)
 
     # Grouped bar chart for peak by month and type
     if time_period == "Monthly":
@@ -92,7 +93,7 @@ elif option == "Graphs":
         grouped_counts = df_filtered.groupby(['Week', 'Type']).size().reset_index(name='Count')
     
     bar_chart_grouped = px.bar(grouped_counts, x=time_column, y='Count', color='Type', barmode='group', title="Peak by Month and Type")
-    c4.plotly_chart(bar_chart_grouped)
+    c6.plotly_chart(bar_chart_grouped)
 
     if time_selection == "All" and creator == "All":
         # Calculate the average count of records per selected time period
