@@ -7,7 +7,10 @@ st.set_page_config(layout="wide")
 st.title("Data Analysis for PCI Changes")
 
 # Abrir o arquivo CSV
-df = pd.read_csv("data.csv", sep=';', decimal=',')
+df_with_duplicates = pd.read_csv("data.csv", sep=';', decimal=',')
+
+# Remove duplicates from the 'task' column
+df = df_with_duplicates.drop_duplicates(subset=['Task'])
 
 df["Created"] = pd.to_datetime(df["Created"])
 
