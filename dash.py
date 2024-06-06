@@ -80,11 +80,19 @@ elif option == "Graphs":
     bar_chart = px.bar(top_offender_applications, x=top_offender_applications.index, y=top_offender_applications.values, labels={'x':'Rank Application Name', 'y':'Count'}, title="Rank by Application Names")
     c3.plotly_chart(bar_chart)
 
-            # Add bar chart for peak by month
-    c4.monthly_counts = df_filtered['Month'].value_counts().sort_index()
-    c4.bar_chart_peak = px.line(c4.monthly_counts, x=c4.monthly_counts.index, y=c4.monthly_counts.values, labels={'x':'Month', 'y':'Count'}, title="Peak by Month")
-    st.plotly_chart(c4.bar_chart_peak)
+    # Line chart for peak by month
+    monthly_counts = df_filtered['Month'].value_counts().sort_index()
+    bar_chart_peak = px.line(monthly_counts, x=monthly_counts.index, y=monthly_counts.values, labels={'x':'Month', 'y':'Count'}, title="Peak by Month")
+    c4.plotly_chart(bar_chart_peak)
 
+    # Grouped bar chart for peak by month and type
+    if time_period == "Monthly":
+        grouped_counts = df_filtered.groupby(['Month', 'Type']).size().reset_index(name='Count')
+    else:
+        grouped_counts = df_filtered.groupby(['Week', 'Type']).size().reset_index(name='Count')
+    
+    bar_chart_grouped = px.bar(grouped_counts, x=time_column, y='Count', color='Type', barmode='group', title="Peak by Month and Type")
+    c4.plotly_chart(bar_chart_grouped)
 
     if time_selection == "All" and creator == "All":
         # Calculate the average count of records per selected time period
@@ -108,4 +116,3 @@ elif option == "Graphs":
             period_count_dict = dict(zip(period_counts[time_period], period_counts['Count']))
             for period, count in period_count_dict.items():
                 st.info(f"{period}: {count}")
-
